@@ -28,29 +28,26 @@ pub mod pallet_balances;
 pub mod pallet_bounties;
 pub mod pallet_child_bounties;
 pub mod pallet_conviction_voting;
-pub mod pallet_fflonk_verifier;
+// removed non-STWO verifiers
 pub mod pallet_grandpa;
 pub mod pallet_groth16_verifier;
 pub mod pallet_message_queue;
 pub mod pallet_multisig;
-pub mod pallet_plonky2_verifier;
-pub mod pallet_plonky2_verifier_verify_proof;
+ 
 pub mod pallet_preimage;
 pub mod pallet_proxy;
 pub mod pallet_referenda;
-pub mod pallet_risc0_verifier;
-pub mod pallet_risc0_verifier_verify_proof;
+ 
 pub mod pallet_scheduler;
 pub mod pallet_session;
-pub mod pallet_sp1_verifier;
+ 
 pub mod pallet_staking;
 pub mod pallet_sudo;
 pub mod pallet_timestamp;
 pub mod pallet_token_gateway;
 pub mod pallet_transaction_payment;
 pub mod pallet_treasury;
-pub mod pallet_ultrahonk_verifier;
-pub mod pallet_ultraplonk_verifier;
+ 
 pub mod pallet_utility;
 pub mod pallet_vesting;
 pub mod pallet_xcm;

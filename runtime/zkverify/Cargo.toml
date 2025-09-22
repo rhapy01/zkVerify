@@ -95,15 +95,8 @@ aggregate-rpc-runtime-api = { workspace = true }
 
 pallet-verifiers = { workspace = true }
 hp-verifiers = { workspace = true }
-pallet-fflonk-verifier = { workspace = true }
-pallet-groth16-verifier = { workspace = true }
-pallet-risc0-verifier = { workspace = true, features = ["inject-native-poseidon2"] }
-pallet-ultrahonk-verifier = { workspace = true }
-pallet-ultraplonk-verifier = { workspace = true }
-pallet-sp1-verifier = { workspace = true }
 pallet-stwo-verifier = { workspace = true }
 hp-dispatch = {workspace = true}
-pallet-plonky2-verifier = { workspace = true }
 
 authority-discovery-primitives = { workspace = true }
 
@@ -147,22 +140,17 @@ runtime-benchmarks = [
 	"pallet-claim/runtime-benchmarks",
 	"pallet-conviction-voting/runtime-benchmarks",
 	"pallet-election-provider-support-benchmarking/runtime-benchmarks",
-	"pallet-fflonk-verifier/runtime-benchmarks",
 	"pallet-grandpa/runtime-benchmarks",
-	"pallet-groth16-verifier/runtime-benchmarks",
 	"pallet-hyperbridge-aggregations/runtime-benchmarks",
 	"pallet-ismp/runtime-benchmarks",
 	"pallet-message-queue/runtime-benchmarks",
 	"pallet-multisig/runtime-benchmarks",
 	"pallet-offences/runtime-benchmarks",
-	"pallet-plonky2-verifier/runtime-benchmarks",
 	"pallet-preimage/runtime-benchmarks",
 	"pallet-proxy/runtime-benchmarks",
 	"pallet-referenda/runtime-benchmarks",
-	"pallet-risc0-verifier/runtime-benchmarks",
 	"pallet-scheduler/runtime-benchmarks",
 	"pallet-session-benchmarking/runtime-benchmarks",
-	"pallet-sp1-verifier/runtime-benchmarks",
 	"pallet-stwo-verifier/runtime-benchmarks",
 	"pallet-staking/runtime-benchmarks",
 	"pallet-sudo/runtime-benchmarks",
@@ -170,8 +158,6 @@ runtime-benchmarks = [
 	"pallet-token-gateway/runtime-benchmarks",
 	"pallet-transaction-payment/runtime-benchmarks",
 	"pallet-treasury/runtime-benchmarks",
-	"pallet-ultrahonk-verifier/runtime-benchmarks",
-	"pallet-ultraplonk-verifier/runtime-benchmarks",
 	"pallet-utility/runtime-benchmarks",
 	"pallet-verifiers/runtime-benchmarks",
 	"pallet-vesting/runtime-benchmarks",
@@ -220,9 +206,6 @@ std = [
 	"pallet-claim/std",
 	"pallet-conviction-voting/std",
 	"pallet-election-provider-support-benchmarking?/std",
-	"pallet-fflonk-verifier/std",
-	"pallet-grandpa/std",
-	"pallet-groth16-verifier/std",
 	"pallet-hyperbridge-aggregations/std",
 	"pallet-hyperbridge/std",
 	"pallet-ismp-runtime-api/std",
@@ -230,15 +213,12 @@ std = [
 	"pallet-message-queue/std",
 	"pallet-multisig/std",
 	"pallet-offences/std",
-	"pallet-plonky2-verifier/std",
 	"pallet-preimage/std",
 	"pallet-proxy/std",
 	"pallet-referenda/std",
-	"pallet-risc0-verifier/std",
 	"pallet-scheduler/std",
 	"pallet-session-benchmarking?/std",
 	"pallet-session/std",
-	"pallet-sp1-verifier/std",
 	"pallet-stwo-verifier/std",
 	"pallet-staking/std",
 	"pallet-sudo/std",
@@ -247,8 +227,6 @@ std = [
 	"pallet-transaction-payment-rpc-runtime-api/std",
 	"pallet-transaction-payment/std",
 	"pallet-treasury/std",
-	"pallet-ultrahonk-verifier/std",
-	"pallet-ultraplonk-verifier/std",
 	"pallet-utility/std",
 	"pallet-verifiers/std",
 	"pallet-vesting/std",
@@ -328,4 +306,4 @@ try-runtime = [
 	"sp-runtime/try-runtime",
 	"zkv-runtime-common/try-runtime",
 ]
-extend-benchmarks = [ "pallet-risc0-verifier/extend-benchmarks" ]
+extend-benchmarks = []

@@ -20,9 +20,9 @@ use codec::{Decode, Encode};
 use sp_runtime_interface::pass_by::PassByCodec;
 
 mod accelerated_bn;
-mod groth16;
-mod risc0;
-mod stwo_verify;
+// groth16 removed
+// risc0 removed
+pub mod stwo_verify;
 
 #[derive(Encode, Decode)]
 #[cfg_attr(test, derive(Debug))]
@@ -47,18 +47,9 @@ impl From<VerifyError> for hp_verifiers::VerifyError {
     }
 }
 
-#[cfg(feature = "std")]
-pub use risc0::risc_0_accelerate::HostFunctions as Risc0AccelerateHostFunctions;
-pub use risc0::Poseidon2Mix;
+ 
 
-#[cfg(feature = "std")]
-pub use groth16::groth_16_bls_12_381_verify;
-#[cfg(feature = "std")]
-pub use groth16::groth_16_bls_12_381_verify::HostFunctions as Groth16Bls12VerifierHostFunctions;
-#[cfg(feature = "std")]
-pub use groth16::groth_16_bn_254_verify;
-#[cfg(feature = "std")]
-pub use groth16::groth_16_bn_254_verify::HostFunctions as Groth16Bn254VerifierHostFunctions;
+// Intentionally do not re-export Groth16 host functions to avoid scope creep
 
 #[cfg(feature = "std")]
 pub use stwo_verify::stwo_verify as stwo_verifier;
@@ -71,9 +62,6 @@ pub use accelerated_bn::bn254::host_calls::HostFunctions as AcceleratedBn254Host
 
 #[cfg(feature = "std")]
 pub type HLNativeHostFunctions = (
-    Groth16Bn254VerifierHostFunctions,
-    Groth16Bls12VerifierHostFunctions,
-    Risc0AccelerateHostFunctions,
     AcceleratedBn254HostFunctions,
     StwoVerifierHostFunctions,
 );

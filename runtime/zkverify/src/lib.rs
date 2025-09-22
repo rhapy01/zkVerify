@@ -115,14 +115,6 @@ mod tests;
 mod weights;
 
 pub(crate) mod weight_aliases {
-    pub mod pallet_plonky2_verifier_verify_proof {
-        pub use pallet_plonky2_verifier::WeightInfoVerifyProof as WeightInfo;
-    }
-
-    pub mod pallet_risc0_verifier_verify_proof {
-        pub use pallet_risc0_verifier::WeightInfoVerifyProof as WeightInfo;
-    }
-
     pub mod frame_system_extensions {
         pub use frame_system::ExtensionsWeightInfo as WeightInfo;
     }
@@ -868,60 +860,21 @@ impl pallet_verifiers::common::Config for Runtime {
     type CommonWeightInfo = Runtime;
 }
 
-impl pallet_verifiers::Config<pallet_fflonk_verifier::Fflonk> for Runtime {
-    type RuntimeEvent = RuntimeEvent;
-    type OnProofVerified = Aggregate;
-    type WeightInfo =
-        pallet_fflonk_verifier::FflonkWeight<weights::pallet_fflonk_verifier::ZKVWeight<Runtime>>;
-    type Ticket = VkRegistrationHoldConsideration;
-    #[cfg(feature = "runtime-benchmarks")]
-    type Currency = Balances;
-}
+// Fflonk removed
 
 pub const GROTH16_MAX_NUM_INPUTS: u32 = 64;
 parameter_types! {
     pub const Groth16MaxNumInputs: u32 = GROTH16_MAX_NUM_INPUTS;
 }
 
-impl pallet_groth16_verifier::Config for Runtime {
-    const MAX_NUM_INPUTS: u32 = Groth16MaxNumInputs::get();
-}
-
-// We should be sure that the max number of inputs does not exceed the max number of inputs in the verifier crate.
-const_assert!(
-    <Runtime as pallet_groth16_verifier::Config>::MAX_NUM_INPUTS
-        <= pallet_groth16_verifier::MAX_NUM_INPUTS
-);
-
-impl pallet_verifiers::Config<pallet_groth16_verifier::Groth16<Runtime>> for Runtime {
-    type RuntimeEvent = RuntimeEvent;
-    type OnProofVerified = Aggregate;
-    type WeightInfo = pallet_groth16_verifier::Groth16Weight<
-        weights::pallet_groth16_verifier::ZKVWeight<Runtime>,
-    >;
-    type Ticket = VkRegistrationHoldConsideration;
-    #[cfg(feature = "runtime-benchmarks")]
-    type Currency = Balances;
-}
+// Groth16 removed
 
 pub const SP1_MAX_PUBS_SIZE: u32 = 32 * 64;
 parameter_types! {
     pub const Sp1MaxPubsSize: u32 = SP1_MAX_PUBS_SIZE;
 }
 
-impl pallet_sp1_verifier::Config for Runtime {
-    type MaxPubsSize = Sp1MaxPubsSize;
-}
-
-impl pallet_verifiers::Config<pallet_sp1_verifier::Sp1<Runtime>> for Runtime {
-    type RuntimeEvent = RuntimeEvent;
-    type OnProofVerified = Aggregate;
-    type WeightInfo =
-        pallet_sp1_verifier::Sp1Weight<weights::pallet_sp1_verifier::ZKVWeight<Runtime>>;
-    type Ticket = VkRegistrationHoldConsideration;
-    #[cfg(feature = "runtime-benchmarks")]
-    type Currency = Balances;
-}
+// SP1 removed
 
 parameter_types! {
     pub const Risc0MaxNSegment: u32 = 4;             // 4 segment of 2^20
@@ -931,43 +884,9 @@ parameter_types! {
                                                     // 32 * 64: sufficient multiple of 32 bytes
 }
 
-impl pallet_risc0_verifier::Config for Runtime {
-    type MaxNSegment = Risc0MaxNSegment;
-    type Segment20MaxSize = Risc0Segment20MaxSize;
-    type MaxPubsSize = Risc0MaxPubsSize;
-    type WeightInfo = weights::pallet_risc0_verifier_verify_proof::ZKVWeight<Runtime>;
-}
+// RISC0 removed
 
-impl pallet_verifiers::Config<pallet_risc0_verifier::Risc0<Runtime>> for Runtime {
-    type RuntimeEvent = RuntimeEvent;
-    type OnProofVerified = Aggregate;
-    type WeightInfo =
-        pallet_risc0_verifier::Risc0Weight<weights::pallet_risc0_verifier::ZKVWeight<Runtime>>;
-    type Ticket = VkRegistrationHoldConsideration;
-    #[cfg(feature = "runtime-benchmarks")]
-    type Currency = Balances;
-}
-
-parameter_types! {
-    pub const UltrahonkMaxPubs: u32 = 32;
-}
-
-impl pallet_ultrahonk_verifier::Config for Runtime {
-    type MaxPubs = UltrahonkMaxPubs;
-}
-
-pub type UltrahonkVerifier = pallet_ultrahonk_verifier::Ultrahonk<Runtime>;
-
-impl pallet_verifiers::Config<UltrahonkVerifier> for Runtime {
-    type RuntimeEvent = RuntimeEvent;
-    type OnProofVerified = Aggregate;
-    type WeightInfo = pallet_ultrahonk_verifier::UltrahonkWeight<
-        weights::pallet_ultrahonk_verifier::ZKVWeight<Runtime>,
-    >;
-    type Ticket = VkRegistrationHoldConsideration;
-    #[cfg(feature = "runtime-benchmarks")]
-    type Currency = Balances;
-}
+// Ultrahonk removed
 
 pub const STWO_MAX_NUM_INPUTS: u32 = 64;
 parameter_types! {
@@ -995,26 +914,7 @@ impl pallet_verifiers::Config<pallet_stwo_verifier::Stwo<Runtime>> for Runtime {
     type Currency = Balances;
 }
 
-parameter_types! {
-    pub const UltraplonkMaxPubs: u32 = 32;
-}
-
-impl pallet_ultraplonk_verifier::Config for Runtime {
-    type MaxPubs = UltraplonkMaxPubs;
-}
-
-pub type UltraplonkVerifier = pallet_ultraplonk_verifier::Ultraplonk<Runtime>;
-
-impl pallet_verifiers::Config<UltraplonkVerifier> for Runtime {
-    type RuntimeEvent = RuntimeEvent;
-    type OnProofVerified = Aggregate;
-    type WeightInfo = pallet_ultraplonk_verifier::UltraplonkWeight<
-        weights::pallet_ultraplonk_verifier::ZKVWeight<Runtime>,
-    >;
-    type Ticket = VkRegistrationHoldConsideration;
-    #[cfg(feature = "runtime-benchmarks")]
-    type Currency = Balances;
-}
+// Ultraplonk removed
 
 parameter_types! {
     pub const Coprocessor: Option<StateMachine> = Some(StateMachine::Polkadot(3367));
@@ -1109,23 +1009,7 @@ parameter_types! {
     pub const Plonky2MaxVkSize: u32 = 50_000;
 }
 
-impl pallet_plonky2_verifier::Config for Runtime {
-    type MaxProofSize = Plonky2MaxProofSize;
-    type MaxPubsSize = Plonky2MaxPubsSize;
-    type MaxVkSize = Plonky2MaxVkSize;
-    type WeightInfo = weights::pallet_plonky2_verifier_verify_proof::ZKVWeight<Runtime>;
-}
-
-impl pallet_verifiers::Config<pallet_plonky2_verifier::Plonky2<Runtime>> for Runtime {
-    type RuntimeEvent = RuntimeEvent;
-    type OnProofVerified = Aggregate;
-    type Ticket = VkRegistrationHoldConsideration;
-    type WeightInfo = pallet_plonky2_verifier::Plonky2Weight<
-        weights::pallet_plonky2_verifier::ZKVWeight<Runtime>,
-    >;
-    #[cfg(feature = "runtime-benchmarks")]
-    type Currency = Balances;
-}
+// Plonky2 removed
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -1218,13 +1102,7 @@ construct_runtime!(
         // Verifiers. Start indices at 160 to leave room and to the end (255). Don't add
         // any kind of other pallets after this value.
         CommonVerifiers: pallet_verifiers::common = 160,
-        SettlementGroth16Pallet: pallet_groth16_verifier = 161,
-        SettlementRisc0Pallet: pallet_risc0_verifier = 162,
-        SettlementUltraplonkPallet: pallet_ultraplonk_verifier = 163,
-        SettlementPlonky2Pallet: pallet_plonky2_verifier = 165,
-        SettlementFFlonkPallet: pallet_fflonk_verifier = 166,
-        SettlementSp1Pallet: pallet_sp1_verifier = 167,
-        SettlementUltrahonkPallet: pallet_ultrahonk_verifier = 168,
+        
         SettlementStwoPallet: pallet_stwo_verifier = 169,
     }
 );
@@ -1315,16 +1193,7 @@ mod benches {
         [pallet_claim, Claim]
         [pallet_hyperbridge_aggregations, HyperbridgeAggregations]
         // verifiers
-        [pallet_fflonk_verifier, FflonkVerifierBench::<Runtime>]
-        [pallet_groth16_verifier, Groth16VerifierBench::<Runtime>]
-        [pallet_risc0_verifier, Risc0VerifierBench::<Runtime>]
-        [pallet_risc0_verifier_verify_proof, Risc0VerifierVerifyProofBench::<Runtime>]
-        [pallet_risc0_verifier_extend, Risc0VerifierExtendBench::<Runtime>]
-        [pallet_ultrahonk_verifier, UltrahonkVerifierBench::<Runtime>]
-        [pallet_ultraplonk_verifier, UltraplonkVerifierBench::<Runtime>]
-        [pallet_plonky2_verifier, Plonky2VerifierBench::<Runtime>]
-        [pallet_plonky2_verifier_verify_proof, Plonky2VerifierVerifyProofBench::<Runtime>]
-        [pallet_sp1_verifier, Sp1VerifierBench::<Runtime>]
+        
         // parachains
         [parachains::configuration, Configuration]
         [parachains::disputes, ParasDisputes]
@@ -1827,16 +1696,7 @@ impl_runtime_apis! {
             use baseline::Pallet as BaselineBench;
             use pallet_election_provider_support_benchmarking::Pallet as ElectionProviderBench;
             use pallet_session_benchmarking::Pallet as SessionBench;
-            use pallet_fflonk_verifier::benchmarking::Pallet as FflonkVerifierBench;
-            use pallet_groth16_verifier::benchmarking::Pallet as Groth16VerifierBench;
-            use pallet_risc0_verifier::benchmarking::Pallet as Risc0VerifierBench;
-            use pallet_risc0_verifier::benchmarking_verify_proof::Pallet as Risc0VerifierVerifyProofBench;
-            use pallet_risc0_verifier::extend_benchmarking::Pallet as Risc0VerifierExtendBench;
-            use pallet_ultrahonk_verifier::benchmarking::Pallet as UltrahonkVerifierBench;
-            use pallet_ultraplonk_verifier::benchmarking::Pallet as UltraplonkVerifierBench;
-            use pallet_plonky2_verifier::benchmarking_verify_proof::Pallet as Plonky2VerifierVerifyProofBench;
-            use pallet_plonky2_verifier::benchmarking::Pallet as Plonky2VerifierBench;
-            use pallet_sp1_verifier::benchmarking::Pallet as Sp1VerifierBench;
+            
 
             pub mod xcm {
                 pub use pallet_xcm::benchmarking::Pallet as XcmPalletBench;
@@ -1862,16 +1722,7 @@ impl_runtime_apis! {
             use baseline::Pallet as BaselineBench;
             use pallet_election_provider_support_benchmarking::Pallet as ElectionProviderBench;
             use pallet_session_benchmarking::Pallet as SessionBench;
-            use pallet_fflonk_verifier::benchmarking::Pallet as FflonkVerifierBench;
-            use pallet_groth16_verifier::benchmarking::Pallet as Groth16VerifierBench;
-            use pallet_risc0_verifier::benchmarking::Pallet as Risc0VerifierBench;
-            use pallet_risc0_verifier::benchmarking_verify_proof::Pallet as Risc0VerifierVerifyProofBench;
-            use pallet_risc0_verifier::extend_benchmarking::Pallet as Risc0VerifierExtendBench;
-            use pallet_ultrahonk_verifier::benchmarking::Pallet as UltrahonkVerifierBench;
-            use pallet_ultraplonk_verifier::benchmarking::Pallet as UltraplonkVerifierBench;
-            use pallet_plonky2_verifier::benchmarking_verify_proof::Pallet as Plonky2VerifierVerifyProofBench;
-            use pallet_plonky2_verifier::benchmarking::Pallet as Plonky2VerifierBench;
-            use pallet_sp1_verifier::benchmarking::Pallet as Sp1VerifierBench;
+            
 
             pub mod xcm {
                 use super::*;
